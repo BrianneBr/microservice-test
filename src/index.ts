@@ -1,6 +1,7 @@
 // Express server setup
 import express from "express";
 import cors from "cors";
+import { TestDatabase } from "./database";
 
 // Creates an express app instance
 const app = express();
@@ -16,6 +17,8 @@ app.get("/", (req, res) => {
 // Starts the server, listening on the provided port
 app.listen(port, () => {
 	console.log(`Listening at http://localhost:${port}`);
+
+	TestDatabase();
 });
 
 // My code here:
