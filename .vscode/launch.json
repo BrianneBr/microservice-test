@@ -16,6 +16,30 @@
                 "${workspaceFolder}/build/**/*.js" // Added "build/"
             ],
             // Add to run the watch task when F5 is pressed, but before debugging
+            "preLaunchTask": "tsc: watch - tsconfig.json",
+            // Opens the debug console while debugging 
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        // Chrome launch config
+        {
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "pwa-chrome",
+            // Specify the port at the end of the url
+            "url": "http://localhost:3000", 
+            "webRoot": "${workspaceFolder}"
+        },
+    ],
+    // Combines a combination of configurations
+    "compounds": [
+        {
+            "name": "Launch All",
+            "configurations": [
+                // The list of configuarations we are combining
+                "Launch Program",
+                "Launch Chrome"
+            ],
+            // Add to run the watch task when F5 is pressed, but before debugging
             "preLaunchTask": "tsc: watch - tsconfig.json"
         }
     ]
