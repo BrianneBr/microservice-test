@@ -1,5 +1,6 @@
 import { JsonDB } from "node-json-db";
 import { Config } from "node-json-db/dist/lib/JsonDBConfig";
+import { User } from "./schema/User";
 
 export function TestDatabase() {
 	// The second argument is used to tell the DB to save after each push
@@ -77,4 +78,31 @@ This give you this results :
 	// In case you have a exterior change to the databse file and want to reload it
 	// use this method
 	db.reload();
+}
+
+export class Database {
+	private readonly db: JsonDB;
+
+	constructor(filename: string) {
+		this.db = new JsonDB(
+			new Config(`database/${filename}`, true, true, "/")
+		);
+	}
+
+	/**
+	 * Returns an array of users
+	 */
+	GetUsers(): User[] {
+		try {
+			// If there are no users, return an empty array instead of undefined
+			return this.db.getData("/users") ?? [];
+		} catch {
+			return [];
+		}
+	}
+
+	/**
+	 * Adds a user to the database
+	 */
+	AddUser() {}
 }

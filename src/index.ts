@@ -1,17 +1,32 @@
-// Express server setup
-import express from "express";
-import cors from "cors";
-import { TestDatabase } from "./database";
+import fastify from "fastify";
+import AutoLoad from "fastify-autoload";
+import path from "path";
+import { Database, TestDatabase } from "./database";
 
-// Creates an express app instance
-const app = express();
+// Creates a fastify app instance
+const app = fastify({
+	logger: true,
+});
 const port = 3000;
 
-// Enable CORS
-app.use(cors());
+// TODO 
+const opts = {};
 
-app.get("/", (req, res) => {
-	res.send("Hello World!");
+// Do not touch the following lines
+
+// This loads all plugins in the plugins directory
+// those should be support plugins that are reused
+// through your application
+app.register(AutoLoad, {
+	dir: path.join(__dirname, "plugins"),
+	options: Object.assign({}, opts),
+});
+
+// This loads all plugins defined in services
+// define your routes in one of these
+app.register(AutoLoad, {
+	dir: path.join(__dirname, "services"),
+	options: Object.assign({ prefix: "/api" }, opts),
 });
 
 // Starts the server, listening on the provided port
@@ -19,6 +34,8 @@ app.listen(port, () => {
 	console.log(`Listening at http://localhost:${port}`);
 
 	TestDatabase();
-});
 
-// My code here:
+	/* 	const db = new Database("testDatabase");
+	const users = db.GetUsers();
+	console.log(users); */
+});
