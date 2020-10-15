@@ -1,4 +1,5 @@
 import { FastifyPluginAsync } from "fastify";
+import { rootSchema } from "../schema/User";
 
 /**
  * Main function for this plugin
@@ -7,8 +8,8 @@ import { FastifyPluginAsync } from "fastify";
  */
 const plugin: FastifyPluginAsync = async (fastify, opts) => {
 	// Setup fastify for this user plugin
-	//
-	fastify.get("/users", async (req, res) => {
+	// Args are the path, the custom schema, and the callback function
+	fastify.get("/users", { schema: rootSchema }, async (req, res) => {
 		return { firstName: "Bobson", lastName: "Dugnut" };
 	});
 };

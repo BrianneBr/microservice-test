@@ -1,6 +1,6 @@
 import { JsonDB } from "node-json-db";
 import { Config } from "node-json-db/dist/lib/JsonDBConfig";
-import { User } from "./schema/User";
+import { User } from "./database/User";
 
 export function TestDatabase() {
 	// The second argument is used to tell the DB to save after each push
