@@ -35,8 +35,7 @@ app.listen(port, () => {
 
 	const users = db.GetUsers();
 
-	console.log(users);
-	
+	console.log(users);	
 });
 
 // My code here:
