@@ -1,5 +1,6 @@
 import fastify from "fastify";
 import AutoLoad from "fastify-autoload";
+import CORS from "fastify-cors";
 import Swagger from "fastify-swagger";
 import * as path from "path";
 import { Database, TestDatabase } from "./database";
@@ -12,6 +13,9 @@ const port = 3000;
 
 // TODO
 const opts = {};
+
+// Register cross origin
+app.register(CORS);
 
 // Register Swagger plugin
 app.register(Swagger, {
