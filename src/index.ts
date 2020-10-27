@@ -26,33 +26,10 @@ app.register(Swagger, {
 			url: "https://swagger.io",
 			description: "Find more info here",
 		},
-		host: "localhost",
+		host: `localhost:${port}`,
 		schemes: ["http"],
 		consumes: ["application/json"],
 		produces: ["application/json"],
-		tags: [
-			{ name: "user", description: "User related end-points" },
-			{ name: "code", description: "Code related end-points" },
-		],
-		definitions: {
-			User: {
-				type: "object",
-				required: ["id", "email"],
-				properties: {
-					id: { type: "string", format: "uuid" },
-					firstName: { type: "string" },
-					lastName: { type: "string" },
-					email: { type: "string", format: "email" },
-				},
-			},
-		},
-		securityDefinitions: {
-			apiKey: {
-				type: "apiKey",
-				name: "apiKey",
-				in: "header",
-			},
-		},
 	},
 	exposeRoute: true,
 });
