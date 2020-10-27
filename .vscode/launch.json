@@ -24,7 +24,7 @@
                 // Looks for this pattern -
                 // with regex for "http://" or "https://" + <some text> + ":" + any numbers
                 "pattern": "Listening at (https?://.+:\\d+)",
-                "uriFormat": "%s",
+                "uriFormat": "%s/documentation/",
                 "action": "debugWithChrome"
             }
         }
