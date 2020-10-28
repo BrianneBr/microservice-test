@@ -11,15 +11,39 @@ HTTP status codes:
 */
 
 export const rootSchema: FastifySchema = {
-    response: {
-        // status code 200 = success: "OK"
-        200: {
-            // When we get the "OK" status, we return the user object
-            type: 'object',
-            properties: {
-                firstName: { type: 'string' },
-                lastName: { type: 'string' }
-            }
-        }
-    }
+	response: {
+		// status code 200 = success: "OK"
+		200: {
+			// When we get the "OK" status, we return the user object
+			type: "object",
+			properties: {
+				firstName: { type: "string" },
+				lastName: { type: "string" },
+			},
+		},
+	},
+};
+
+export const GetUserSchema: FastifySchema = {
+	params: {
+		type: "object",
+		properties: {
+			id: { type: "number" },
+		},
+	},
+	response: {
+		// status code 200 = success: "OK"
+		200: {
+			// When we get the "OK" status, we return the user object
+			type: "object",
+			properties: {
+				firstName: { type: "string" },
+				lastName: { type: "string" },
+			},
+		},
+	},
+};
+
+export interface GetUserParams {
+    id: number;
 }
