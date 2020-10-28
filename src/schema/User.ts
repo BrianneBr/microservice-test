@@ -44,6 +44,52 @@ export const GetUserSchema: FastifySchema = {
 	},
 };
 
+export const CreateUserSchema: FastifySchema = {
+	// body is used for POST and PUT - not params
+	body: {
+		type: "object",
+		properties: {
+			username: { type: "string" },
+			firstName: { type: "string" },
+			lastName: { type: "string" },
+		},
+	},
+	response: {
+		// status code 201 = success: "Created"
+		201: {},
+		// status code 500 = Server error: "Internal Server Error"
+		500: {},
+	},
+};
+
+export const EditUserSchema: FastifySchema = {
+	// body is used for POST and PUT - not params
+	body: {
+		type: "object",
+		properties: {
+			id: { type: "number" },
+			username: { type: "string" },
+			firstName: { type: "string" },
+			lastName: { type: "string" },
+		},
+	},
+	response: {
+		501: {},
+	},
+};
+
+export const DeleteUserSchema: FastifySchema = {
+	params: {
+		type: "object",
+		properties: {
+			id: { type: "number" },
+		},
+	},
+	response: {
+		// status code 200 = success: "OK"
+		200: {},
+	},
+};
 export interface GetUserParams {
-    id: number;
+	id: number;
 }

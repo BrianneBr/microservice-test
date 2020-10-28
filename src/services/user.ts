@@ -1,15 +1,17 @@
 import { FastifyPluginAsync, FastifyRequest } from "fastify";
+import { STATUS_CODES } from "http";
 import { userInfo } from "os";
 import { REPL_MODE_SLOPPY } from "repl";
-import { GetUserParams, GetUserSchema, rootSchema } from "../schema/User";
+import {
+	CreateUserSchema,
+	DeleteUserSchema,
+	EditUserSchema,
+	GetUserParams,
+	GetUserSchema,
+	rootSchema,
+} from "../schema/User";
 
 // const User = require("./User");
-
-// TODO Add:
-//	endpoint for: creating users
-//	endpoint for: get specific user
-//	endpoint for: updating a specific user
-//	endpoint for: deleting a user
 
 /**
  * Main function for this plugin
@@ -21,12 +23,20 @@ const plugin: FastifyPluginAsync = async (fastify, opts) => {
 	// Args are the path, the custom schema, and the callback function
 	// "s" adds an "s" to the end of "user" in the route path
 	fastify.get("s", { schema: rootSchema }, async (req, res) => {
-		return { firstName: "Bobson", lastName: "Dugnut" };
+		// "res.send(...)" can be used in place of "return ..."
+		res.send({ firstName: "Bobson", lastName: "Dugnut" });
+		return;
 	});
 
 	// Endpoint for getting a single user
-	fastify.get("/:id", { schema: GetUserSchema }, (req, res) => {
-		const userId = (req.params as GetUserParams).id;
+	// https://github.com/fastify/fastify/blob/master/docs/TypeScript.md#using-generics
+	fastify.get<{
+		Params: GetUserParams;
+	}>("/:id", { schema: GetUserSchema }, (req, res) => {
+		// Params is defined above, so "req.params" doesn't need to be cast
+		const userId = req.params.id;
+		console.log(userId);
+		//#region usdhajka
 		/* User.findById(userId, (err: Error, user: object) => {
 			// Return an error if encountered
 			if(err) {
@@ -37,21 +47,31 @@ const plugin: FastifyPluginAsync = async (fastify, opts) => {
 			res.send(user);
 			return;
 		}) */
+		//#endregion
 	});
 
-	/* // Endpoint for getting all users
-	fastify.get("/users", (req, res) => {
-		User.find({}, (err: Error, users: object) => {
-			// Return an error if encountered
-			if(err) {
-				res.send({error: err});
-				return;
-			}
-			// Send the user data as a response if successful
-			res.send(users);
-			return;
-		})
-	}) */
+	// Endpoint for creating a user
+	fastify.post("/create", { schema: CreateUserSchema }, (req, res) => {
+		console.log(req.body);
+		// status code 201 = success: "Created"
+		res.status(201);
+		res.send();
+		return;
+	});
+
+	// Endpoint for updating a single user
+	fastify.put("/edit", { schema: EditUserSchema }, (req, res)=>{
+		res.status(501);
+		res.send();
+		return;
+	});
+
+	// Endpoint for deleting a user
+	fastify.delete("/:id", {schema: DeleteUserSchema}, (req, res)=>{
+		res.status(501);
+		res.send();
+		return;
+	});
 };
 
 export default plugin;
