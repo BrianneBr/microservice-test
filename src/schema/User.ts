@@ -14,6 +14,7 @@ export const rootSchema: FastifySchema = {
 	response: {
 		// status code 200 = success: "OK"
 		200: {
+			description: "Success",
 			// When we get the "OK" status, we return the user object
 			type: "object",
 			properties: {
@@ -34,6 +35,7 @@ export const GetUserSchema: FastifySchema = {
 	response: {
 		// status code 200 = success: "OK"
 		200: {
+			description: "Success",
 			// When we get the "OK" status, we return the user object
 			type: "object",
 			properties: {
