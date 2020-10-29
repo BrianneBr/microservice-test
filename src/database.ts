@@ -1,6 +1,12 @@
 import { JsonDB } from "node-json-db";
 import { Config } from "node-json-db/dist/lib/JsonDBConfig";
-import { User } from "./database/User";
+
+export interface User {
+	userID: number;
+	firstName: string;
+	lastName: string;
+	email: string | null;
+}
 
 export function TestDatabase() {
 	// The second argument is used to tell the DB to save after each push
@@ -38,10 +44,10 @@ This give you this results :
 {
    "test":"test",
    "json":{
-      "test":[
-         "test"
-      ],
-      "important":5
+	  "test":[
+		 "test"
+	  ],
+	  "important":5
    },
    "new":"cool"
 }
@@ -104,5 +110,5 @@ export class Database {
 	/**
 	 * Adds a user to the database
 	 */
-	AddUser() {}
+	AddUser() { }
 }
