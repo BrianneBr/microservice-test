@@ -17,6 +17,7 @@
     "fastify-autoload": "^3.3.0",
     "fastify-cors": "^4.1.0",
     "fastify-swagger": "^3.4.0",
-    "node-json-db": "^1.1.0"
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0"
   }
 }

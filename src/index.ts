@@ -3,7 +3,7 @@ import AutoLoad from "fastify-autoload";
 import CORS from "fastify-cors";
 import Swagger from "fastify-swagger";
 import * as path from "path";
-import { Database, TestDatabase } from "./database";
+import { TestDatabase } from "./database";
 
 // Creates a fastify app instance
 const app = fastify({

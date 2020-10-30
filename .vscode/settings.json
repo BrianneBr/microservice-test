@@ -1,0 +1,11 @@
+{
+	"sqltools.connections": [
+		{
+			"previewLimit": 50,
+			"driver": "SQLite",
+			"database": "${workspaceFolder:microservice-test}/database/testdb.sqlite",
+			"name": "TestDB"
+		}
+	],
+	"sqltools.useNodeRuntime": true
+}
