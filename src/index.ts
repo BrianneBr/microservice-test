@@ -3,7 +3,12 @@ import AutoLoad from "fastify-autoload";
 import CORS from "fastify-cors";
 import Swagger from "fastify-swagger";
 import * as path from "path";
-import { TestDatabase } from "./database";
+
+// This must be imported somewhere globally for TypeORM's reflection to work
+import "reflect-metadata";
+
+import { createConnection } from "typeorm";
+import { User } from "./entity/User";
 
 // Creates a fastify app instance
 const app = fastify({
@@ -68,7 +73,7 @@ app.ready((err) => {
 });
 
 // Starts the server, listening on the provided port
-app.listen(port, (err, address) => {
+app.listen(port, async (err, address) => {
 	if (err) {
 		app.log.error(err);
 		process.exit(1);
@@ -76,9 +81,31 @@ app.listen(port, (err, address) => {
 
 	console.log(`Listening at ${address}`);
 
-	TestDatabase();
-
-	/* 	const db = new Database("testDatabase");
-	const users = db.GetUsers();
-	console.log(users); */
+	await TestDatabase();
 });
+
+async function TestDatabase() {
+	createConnection({
+		type: "sqlite",
+		database: "database/testdb.sqlite",
+		entities: [
+			path.join(__dirname, "/entity/*.js")
+		],
+		synchronize: true,
+		logging: false
+	}).then(async connection => {
+		console.log("Inserting a new user into the database...");
+		const user = new User();
+		user.firstName = "Bob";
+		user.lastName = "Dobalena";
+		user.email = undefined; // Having this be undefined (either explicitly, or implcitly) will make it null in the db
+		await connection.manager.save(user);
+		console.log("Saved a new user with id: " + user.id);
+
+		console.log("Loading users from the database...");
+		const users = await connection.manager.find(User);
+		console.log("Loaded users: ", users);
+
+		console.log("Here you can setup and run express/koa/any other framework.");
+	}).catch(error => console.log(error));
+}
