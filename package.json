@@ -17,6 +17,7 @@
     "fastify-autoload": "^3.3.0",
     "fastify-cors": "^4.1.0",
     "fastify-swagger": "^3.4.0",
+    "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.0",
     "typeorm": "^0.2.28"
   }
