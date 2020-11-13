@@ -2,10 +2,9 @@ import fastify from "fastify";
 import AutoLoad from "fastify-autoload";
 import CORS from "fastify-cors";
 import Swagger from "fastify-swagger";
-import { Sequelize } from "sequelize-typescript";
 
 import * as path from "path";
-import User from "./models/user";
+import { TestDatabase } from "./database";
 
 const port = 3000;
 
@@ -81,37 +80,3 @@ app.listen(port, async (err, address) => {
 
 	await TestDatabase();
 });
-
-async function TestDatabase() {
-	// Connect to the database
-	const sequelize = new Sequelize({
-		dialect: "sqlite",
-		storage: path.join(process.cwd(), "tmp", "database.sqlite"),
-		models: [path.join(__dirname, "models")],
-	});
-
-	// Check if we have a valid connection
-	try {
-		await sequelize.authenticate();
-		console.log("Connection has been established successfully.");
-	} catch (error) {
-		console.error("Unable to connect to the database:", error);
-		return;
-	}
-
-	// Synchronize all defined models with the database.
-	// This essentially creates the required tables, or
-	// updates the schema of existing tables.
-	await sequelize.sync({ force: false });
-
-	// Create a user
-	const user = new User();
-	user.firstName = "first";
-	user.lastName = "last";
-
-	// Save the user to the db
-	await user.save();
-
-	// Close the connection
-	await sequelize.close();
-}
