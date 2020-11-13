@@ -66,7 +66,9 @@ const plugin: FastifyPluginAsync = async (fastify, opts) => {
 
 		// status code 201 = success: "Created"
 		res.status(201);
-		res.send();
+		res.send({
+			id: user.id
+		});
 		return;
 	});
 

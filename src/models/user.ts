@@ -11,11 +11,7 @@ import {
 // https://github.com/RobinBuschmann/sequelize-typescript#table
 @Table
 export class User extends Model<User> {
-	// using "!" tells TypeScript that the property will be defined somewhere else
-	// https://github.com/RobinBuschmann/sequelize-typescript#column
-	@PrimaryKey
-	@Column
-	readonly id!: number;
+    // The id is inherited from Model as an auto-incrementing int called "id" 
 
 	@Column
 	firstName!: string;
