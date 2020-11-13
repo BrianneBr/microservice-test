@@ -10,17 +10,23 @@ HTTP status codes:
 500-599   Server errors
 */
 
+const userSchema = {
+	type: "object",
+	properties: {
+		firstName: { type: "string" },
+		lastName: { type: "string" },
+	},
+}
+
 export const rootSchema: FastifySchema = {
 	response: {
 		// status code 200 = success: "OK"
 		200: {
 			description: "Success",
 			// When we get the "OK" status, we return the user object
-			type: "object",
-			properties: {
-				firstName: { type: "string" },
-				lastName: { type: "string" },
-			},
+			type: "array",
+			maxItems: 10,
+			items: userSchema
 		},
 	},
 };
@@ -37,11 +43,7 @@ export const GetUserSchema: FastifySchema = {
 		200: {
 			description: "Success",
 			// When we get the "OK" status, we return the user object
-			type: "object",
-			properties: {
-				firstName: { type: "string" },
-				lastName: { type: "string" },
-			},
+			...userSchema
 		},
 	},
 };

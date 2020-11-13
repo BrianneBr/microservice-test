@@ -1,7 +1,5 @@
 import { FastifyPluginAsync, FastifyRequest } from "fastify";
 import { STATUS_CODES } from "http";
-import { userInfo } from "os";
-import { REPL_MODE_SLOPPY } from "repl";
 import { User } from "../models/user";
 import {
 	CreateUserParams,
@@ -26,7 +24,7 @@ const plugin: FastifyPluginAsync = async (fastify, opts) => {
 	// "s" adds an "s" to the end of "user" in the route path
 	fastify.get("s", { schema: rootSchema }, async (req, res) => {
 		// "res.send(...)" can be used in place of "return ..."
-		res.send({ firstName: "Bobson", lastName: "Dugnut" });
+		res.send(await User.findAll());
 		return;
 	});
 
@@ -67,20 +65,20 @@ const plugin: FastifyPluginAsync = async (fastify, opts) => {
 		// status code 201 = success: "Created"
 		res.status(201);
 		res.send({
-			id: user.id
+			id: user.id,
 		});
 		return;
 	});
 
 	// Endpoint for updating a single user
-	fastify.put("/edit", { schema: EditUserSchema }, (req, res)=>{
+	fastify.put("/edit", { schema: EditUserSchema }, (req, res) => {
 		res.status(501);
 		res.send();
 		return;
 	});
 
 	// Endpoint for deleting a user
-	fastify.delete("/:id", {schema: DeleteUserSchema}, (req, res)=>{
+	fastify.delete("/:id", { schema: DeleteUserSchema }, (req, res) => {
 		res.status(501);
 		res.send();
 		return;
