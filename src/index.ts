@@ -4,7 +4,7 @@ import CORS from "fastify-cors";
 import Swagger from "fastify-swagger";
 
 import * as path from "path";
-import { TestDatabase } from "./database";
+import { InitDatabase, TestDatabase } from "./database";
 
 const port = 3000;
 
@@ -78,5 +78,5 @@ app.listen(port, async (err, address) => {
 
 	console.log(`Listening at ${address}`);
 
-	await TestDatabase();
+	await InitDatabase();
 });

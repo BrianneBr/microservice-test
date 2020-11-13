@@ -3,7 +3,22 @@ import { Sequelize } from "sequelize-typescript";
 import { User } from "./models/user";
 
 export async function TestDatabase() {
-	// Connect to the database
+    const sequelize = await InitDatabase();
+
+	// Create a user
+	const user = new User();
+	user.firstName = "first";
+	user.lastName = "last";
+
+	// Save the user to the db
+	await user.save();
+
+	// Close the connection
+	await sequelize.close();
+}
+
+export async function InitDatabase() {
+    // Connect to the database
 	const sequelize = new Sequelize({
 		dialect: "sqlite",
 		storage: path.join(process.cwd(), "tmp", "database.sqlite"),
@@ -16,22 +31,13 @@ export async function TestDatabase() {
 		console.log("Connection has been established successfully.");
 	} catch (error) {
 		console.error("Unable to connect to the database:", error);
-		return;
+		return sequelize;
 	}
 
 	// Synchronize all defined models with the database.
 	// This essentially creates the required tables, or
 	// updates the schema of existing tables.
-	await sequelize.sync({ force: false });
-
-	// Create a user
-	const user = new User();
-	user.firstName = "first";
-	user.lastName = "last";
-
-	// Save the user to the db
-	await user.save();
-
-	// Close the connection
-	await sequelize.close();
+    await sequelize.sync({ force: false });
+    
+    return sequelize;
 }

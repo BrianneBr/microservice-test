@@ -2,7 +2,9 @@ import { FastifyPluginAsync, FastifyRequest } from "fastify";
 import { STATUS_CODES } from "http";
 import { userInfo } from "os";
 import { REPL_MODE_SLOPPY } from "repl";
+import { User } from "../models/user";
 import {
+	CreateUserParams,
 	CreateUserSchema,
 	DeleteUserSchema,
 	EditUserSchema,
@@ -51,8 +53,17 @@ const plugin: FastifyPluginAsync = async (fastify, opts) => {
 	});
 
 	// Endpoint for creating a user
-	fastify.post("/create", { schema: CreateUserSchema }, (req, res) => {
-		console.log(req.body);
+	fastify.post<{
+		Body: CreateUserParams;
+	}>("/create", { schema: CreateUserSchema }, async (req, res) => {
+		// Because this is a POST, we want to use "body", not "params"
+		const user = new User();
+		user.firstName = req.body.firstName;
+		user.lastName = req.body.lastName;
+
+		// Save the user to the db
+		await user.save();
+
 		// status code 201 = success: "Created"
 		res.status(201);
 		res.send();

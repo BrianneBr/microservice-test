@@ -64,6 +64,11 @@ export const CreateUserSchema: FastifySchema = {
 	},
 };
 
+export interface CreateUserParams {
+	firstName: string;
+	lastName: string;
+}
+
 export const EditUserSchema: FastifySchema = {
 	// body is used for POST and PUT - not params
 	body: {
